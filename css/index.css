@@ -3,6 +3,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  background-image: url('../img/bg.avif');
 }
 
 .container {
@@ -48,14 +49,14 @@ body {
 .table {
   margin-top: 20px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .table-light th {
   background-color: #939CA7 !important;
   color: #ffffff;
   font-family: PingFangSC-Medium;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   font-weight: 500;
   border-right: 1px solid lightgray;
@@ -67,7 +68,7 @@ body {
 
 /* 表格内容 */
 .table tbody td {
-  color: #696F77;
+  color: #220ff1;
 }
 
 .table .del {
