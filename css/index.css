@@ -50,16 +50,16 @@ body {
   margin-top: 20px;
   text-align: center;
   font-size: 16px;
+  font-weight: 500;
 }
 
 .table-light th {
-  background-color: #939CA7 !important;
-  color: #ffffff;
+  background-color: #555 !important;
+  color: #fff;
   font-family: PingFangSC-Medium;
   font-size: 18px;
   text-align: center;
-  font-weight: 500;
-  border-right: 1px solid lightgray;
+  border-right: 2px solid lightgray;
 }
 
 .table-light th:last-of-type {
@@ -68,7 +68,8 @@ body {
 
 /* 表格内容 */
 .table tbody td {
-  color: #220ff1;
+  color: #1777e5;
+  border: 2px solid lightgray;
 }
 
 .table .del {
@@ -77,12 +78,12 @@ body {
 }
 
 .table .edit {
-  color: #539ACB;
+  color: #2d05f3;
 }
 
 .table tbody tr {
-  height: 30px;
-  line-height: 30px;
+  height: 36px;
+  line-height: 36px;
 }
 
 .table tbody tr td:last-of-type span {

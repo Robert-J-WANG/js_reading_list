@@ -16,11 +16,14 @@ function getBooksList() {
   }).then((result) => {
     // console.log(result)
     const bookList = result.data.data;
-    // console.log(bookList)
+
     // 1.2 渲染数据
-    const htmlStr = bookList
-      .map((item, index) => {
-        return `<tr>
+    const htmlStr =
+      bookList.length <= 0
+        ? `<p style="color:red; font-size:20px">There is no books!</p>`
+        : bookList
+            .map((item, index) => {
+              return `<tr>
       <td>${index + 1}</td>
       <td>${item.bookname}</td>
       <td>${item.author}</td>
@@ -30,8 +33,8 @@ function getBooksList() {
         <span class="edit">Edit</span>
       </td>
     </tr>`;
-      })
-      .join("");
+            })
+            .join("");
     // console.log(htmlStr)
     document.querySelector(".list").innerHTML = htmlStr;
   });
