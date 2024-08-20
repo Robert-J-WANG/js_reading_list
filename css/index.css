@@ -18,6 +18,13 @@ body {
   padding-top: 20px;
 }
 
+@media (max-width: 680px) {
+  .container {
+    width: 680px;
+    min-width: 680px;
+  }
+}
+
 /* alert提示框 */
 .toast {
   position: fixed;
