@@ -8,7 +8,7 @@ const creator = "老张";
 function getBooksList() {
   // 1.1 获取数据
   axios({
-    url: "http://hmajax.itheima.net/api/books",
+    url: "https://hmajax.itheima.net/api/books",
     params: {
       // 外号：获取对应数据
       creator,
