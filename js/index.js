@@ -1,20 +1,22 @@
+// index.js
+
+import {
+  fetchBooks,
+  addBook,
+  deleteBook,
+  fetchBookById,
+  updateBook,
+} from './bookAPIs.js';
+
 /**
  * 目标1：渲染图书列表
  *  1.1 获取数据
  *  1.2 渲染数据
  */
-const creator = "老张";
 // 封装-获取并渲染图书列表函数
 function getBooksList() {
   // 1.1 获取数据
-  axios({
-    url: "https://hmajax.itheima.net/api/books",
-    params: {
-      // 外号：获取对应数据
-      creator,
-    },
-  }).then((result) => {
-    // console.log(result)
+  fetchBooks().then((result) => {
     const bookList = result.data.data;
 
     // 1.2 渲染数据
@@ -35,7 +37,6 @@ function getBooksList() {
     </tr>`;
             })
             .join("");
-    // console.log(htmlStr)
     document.querySelector(".list").innerHTML = htmlStr;
   });
 }
@@ -56,17 +57,8 @@ document.querySelector(".add-btn").addEventListener("click", () => {
   // 2.2 收集表单数据，并提交到服务器保存
   const addForm = document.querySelector(".add-form");
   const bookObj = serialize(addForm, { hash: true, empty: true });
-  // console.log(bookObj)
   // 提交到服务器
-  axios({
-    url: "http://hmajax.itheima.net/api/books",
-    method: "POST",
-    data: {
-      ...bookObj,
-      creator,
-    },
-  }).then((result) => {
-    // console.log(result)
+  addBook(bookObj).then((result) => {
     // 2.3 添加成功后，重新请求并渲染图书列表
     getBooksList();
     // 重置表单
@@ -85,18 +77,12 @@ document.querySelector(".add-btn").addEventListener("click", () => {
 // 3.1 删除元素->点击（事件委托）
 document.querySelector(".list").addEventListener("click", (e) => {
   // 获取触发事件目标元素
-  // console.log(e.target)
   // 判断点击的是删除元素
   if (e.target.classList.contains("del")) {
-    // console.log('点击删除元素')
     // 获取图书id（自定义属性id）
     const theId = e.target.parentNode.dataset.id;
-    // console.log(theId)
     // 3.2 调用删除接口
-    axios({
-      url: `http://hmajax.itheima.net/api/books/${theId}`,
-      method: "DELETE",
-    }).then(() => {
+    deleteBook(theId).then(() => {
       // 3.3 刷新图书列表
       getBooksList();
     });
@@ -118,20 +104,14 @@ document.querySelector(".list").addEventListener("click", (e) => {
   if (e.target.classList.contains("edit")) {
     // 4.2 获取当前编辑图书数据->回显到编辑表单中
     const theId = e.target.parentNode.dataset.id;
-    axios({
-      url: `http://hmajax.itheima.net/api/books/${theId}`,
-    }).then((result) => {
+    fetchBookById(theId).then((result) => {
       const bookObj = result.data.data;
-      // document.querySelector('.edit-form .bookname').value = bookObj.bookname
-      // document.querySelector('.edit-form .author').value = bookObj.author
-      // 数据对象“属性”和标签“类名”一致
-      // 遍历数据对象，使用属性去获取对应的标签，快速赋值
       const keys = Object.keys(bookObj); // ['id', 'bookname', 'author', 'publisher']
       keys.forEach((key) => {
         document.querySelector(`.edit-form .${key}`).value = bookObj[key];
       });
+      editModal.show();
     });
-    editModal.show();
   }
 });
 // 修改按钮->点击->隐藏弹框
@@ -142,18 +122,7 @@ document.querySelector(".edit-btn").addEventListener("click", () => {
     hash: true,
     empty: true,
   });
-  // 保存正在编辑的图书id，隐藏起来：无需让用户修改
-  // <input type="hidden" class="id" name="id" value="84783">
-  axios({
-    url: `http://hmajax.itheima.net/api/books/${id}`,
-    method: "PUT",
-    data: {
-      bookname,
-      author,
-      publisher,
-      creator,
-    },
-  }).then(() => {
+  updateBook(id, { bookname, author, publisher }).then(() => {
     // 修改成功以后，重新获取并刷新列表
     getBooksList();
 
